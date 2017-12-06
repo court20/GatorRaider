@@ -16,8 +16,10 @@ public final class StudentController implements DefenderController
 	{
 		int[] actions = new int[Game.NUM_DEFENDER];
 		List<Defender> enemies = game.getDefenders();
+		Defender dominic = enemies.get(1);
 		Defender mohona = enemies.get(3);
 
+		actions[1] = chaseMethod(game, dominic);
 		actions[3] = mohonaAction(mohona, game, timeDue);
 
 
@@ -61,5 +63,14 @@ public final class StudentController implements DefenderController
 		}
 
 		return mohonasMove;
+	}
+
+	public int chaseMethod(Game game, Defender ghost)
+	{
+		int action;
+		//Assigns action int to direction the ghost should go in to follow Ms. Pacman
+		action = ghost.getNextDir(game.getAttacker().getLocation(),true);
+
+		return action;
 	}
 }

@@ -3,6 +3,7 @@ package ufl.cs1.controllers;
 import game.controllers.DefenderController;
 import game.models.Defender;
 import game.models.Game;
+import game.models.Node;
 
 import java.util.List;
 
@@ -16,9 +17,11 @@ public final class StudentController implements DefenderController
 	{
 		int[] actions = new int[Game.NUM_DEFENDER];
 		List<Defender> enemies = game.getDefenders();
+		Defender courtney = enemies.get(0);
 		Defender dominic = enemies.get(1);
 		Defender mohona = enemies.get(3);
 
+		actions[0] = courtneysMethod(courtney, game);
 		actions[1] = chaseMethod(game, dominic);
 		actions[3] = mohonaAction(mohona, game, timeDue);
 
@@ -72,5 +75,13 @@ public final class StudentController implements DefenderController
 		action = ghost.getNextDir(game.getAttacker().getLocation(),true);
 
 		return action;
+	}
+
+	//courtneys method for getting the attacker (normal mode)
+	public int courtneysMethod(Defender courtney, Game game){
+		//gets the node facing the way the attacker is going
+		int direction = courtney.getNextDir(game.getAttacker().getLocation().getNeighbor(game.getAttacker().getReverse()),true);
+
+		return direction;
 	}
 }

@@ -19,10 +19,12 @@ public final class StudentController implements DefenderController
 		List<Defender> enemies = game.getDefenders();
 		Defender courtney = enemies.get(0);
 		Defender dominic = enemies.get(1);
+		Defender jonathan= enemies.get(2);
 		Defender mohona = enemies.get(3);
 
 		actions[0] = courtneysMethod(courtney, game);
 		actions[1] = chaseMethod(game, dominic);
+		actions[2] = jonathansMethod(jonathan,dominic,courtney, game);
 		actions[3] = mohonaAction(mohona, game, timeDue);
 
 
@@ -66,6 +68,26 @@ public final class StudentController implements DefenderController
 		}
 
 		return mohonasMove;
+	}
+
+	public int jonathansMethod(Defender jon,Defender dom, Defender court, Game game){
+		int direction=1;
+		List<Node> locations=game.getAttacker().getPossibleLocations(true);
+
+		int[] directions=new int[locations.size()];
+		int temp=0;
+		for(Node n:locations){
+			System.out.println(temp);
+			directions[temp]=jon.getNextDir(n,true);
+			temp++;
+		}
+		if(directions.length>2){
+			for(int x:directions){
+				if(x!=chaseMethod(game,dom) && x!=courtneysMethod(court, game))
+					direction=x;
+			}
+		}
+		return direction;
 	}
 
 	public int chaseMethod(Game game, Defender ghost)

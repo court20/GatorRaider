@@ -22,10 +22,25 @@ public final class StudentController implements DefenderController
 		Defender jonathan= enemies.get(2);
 		Defender mohona = enemies.get(3);
 
+
 		actions[0] = courtneysMethod(courtney, game);
 		actions[1] = chaseMethod(game, dominic);
 		actions[2] = jonathansMethod(jonathan, game);
 		actions[3] = mohonaAction(mohona, game, timeDue);
+
+		if (!mohona.isVulnerable()  || !courtney.isVulnerable() || !dominic.isVulnerable() || !jonathan.isVulnerable()) {
+			actions[0] = courtneysMethod(courtney, game);
+			actions[1] = chaseMethod(game, dominic);
+			actions[2] = jonathansMethod(jonathan,  game);
+			actions[3] = mohonaAction(mohona, game, timeDue);
+		}
+		else {
+			actions[0]= courtney.getNextDir(game.getAttacker().getLocation(), false);
+			actions[1]= dominic.getNextDir(game.getAttacker().getLocation(), false);
+			actions[2]= jonathan.getNextDir(game.getAttacker().getLocation(), false);
+			actions[3]= mohona.getNextDir(game.getAttacker().getLocation(), false);
+			
+		}
 
 
 		return actions;

@@ -6,6 +6,7 @@ import game.models.Game;
 import game.models.Node;
 
 import java.util.List;
+import game.models.Attacker;
 
 public final class StudentController implements DefenderController
 {
@@ -21,7 +22,6 @@ public final class StudentController implements DefenderController
 		Defender dominic = enemies.get(1);
 		Defender jonathan= enemies.get(2);
 		Defender mohona = enemies.get(3);
-
 
 		actions[0] = courtneysMethod(courtney, game);
 		actions[1] = chaseMethod(game, dominic);
@@ -129,12 +129,40 @@ public final class StudentController implements DefenderController
 
 	public int jonathansMethod(Defender jon, Game game){
 		int direction;
+		Attacker pacman= game.getAttacker();
+		Node location= pacman.getLocation();
+		Node target;
 
 		if (almostVulnerable(jon, game, 20 ) != -1 ) {
 			direction = almostVulnerable(jon, game, 20);
 		}
 		else {
-			direction = jon.getNextDir(game.getAttacker().getLocation().getNeighbor(game.getAttacker().getPossibleDirs(false).get(0)), true);
+
+			target=pacman.getLocation();
+			try{
+				target=  location.getNeighbor(pacman.getDirection());
+				try{
+					target=  target.getNeighbor(pacman.getDirection());
+					try{
+						target=  target.getNeighbor(pacman.getDirection());
+						try{
+							target=  target.getNeighbor(pacman.getDirection());
+
+						}catch(NullPointerException h){}
+
+					}catch(NullPointerException e){}
+
+				}catch(NullPointerException j){}
+
+			}catch(NullPointerException k){
+
+			}
+			try{
+				direction = jon.getNextDir(target, true);
+			}catch(NullPointerException l){
+				direction=jon.getNextDir(location,true);
+			}
+
 		}
 		return direction;
 	}

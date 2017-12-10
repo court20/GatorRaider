@@ -72,9 +72,7 @@ public final class StudentController implements DefenderController
 			}
 
 		}
-		else {
-			action = name.getNextDir(game.getAttacker().getLocation(), true);
-		}
+		
 		return action;
 
 	}

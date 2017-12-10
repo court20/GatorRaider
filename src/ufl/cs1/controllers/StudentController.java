@@ -26,8 +26,15 @@ public final class StudentController implements DefenderController
 		actions[0] = courtneysMethod(courtney, game);
 		actions[1] = chaseMethod(game, dominic);
 		actions[2] = jonathansMethod(jonathan, game);
-		actions[3] = mohonaAction(mohona, game, timeDue);
+		actions[3] = mohonaAction(mohona, game);
 
+		int i = 0;
+		for (Defender name : game.getDefenders()){
+			if (name.isVulnerable()) {
+				actions[i] = name.getNextDir(game.getAttacker().getLocation(), false);
+				i++;
+			}
+		}
 
 		return actions;
 	}
@@ -42,11 +49,8 @@ public final class StudentController implements DefenderController
 
 		//find the pill pacman is closest to
 		if (game.getPowerPillList().size() != 0) {
-			//Get lists of pills
 			for (i = 1; i < game.getPowerPillList().size() && i > 0; i++) {
-				//ensure that there is a power pill at the node
 				if (game.checkPowerPill(game.getPowerPillList().get(i)) && game.checkPowerPill(game.getPowerPillList().get(j))) {
-					//Find the pill pacman is nearest to.
 					if (i == 1) {
 						min = game.getAttacker().getLocation().getPathDistance(game.getPowerPillList().get(j));
 						minNode = j;
@@ -65,21 +69,19 @@ public final class StudentController implements DefenderController
 			if (game.getPowerPillList().get(minNode).getPathDistance(game.getAttacker().getLocation()) <= x) {
 				for (int k = 0; k < name.getPathTo(game.getAttacker().getLocation()).size(); k++) {
 					if (name.getPathTo(game.getAttacker().getLocation()).get(k).getX() <= x || name.getPathTo(game.getAttacker().getLocation()).get(k).getX() <= x) {
-						action = name.getNextDir(game.getAttacker().getLocation(), false);
+						action = name.getReverse();
 						return action;
 					}
 				}
 			}
 
 		}
-		else {
-			action = name.getNextDir(game.getAttacker().getLocation(), true);
-		}
+
 		return action;
 
 	}
 
-	public int mohonaAction(Defender mohona, Game game, long timeDue) {
+	public int mohonaAction(Defender mohona, Game game) {
 		int mohonasMove = -1;
 		int i = 0;
 		int min = 0;
@@ -108,9 +110,9 @@ public final class StudentController implements DefenderController
 				}
 			}
 
-			//if i am close to pacman and pacman is close to a pill
-			if (almostVulnerable(mohona, game, 10) == -1 ) {
-				mohonasMove = almostVulnerable(mohona, game, 10);
+			//if i am close to pacman and pacman is close to a pill, go in the reverse direction
+			if (almostVulnerable(mohona, game, 20) != -1 ) {
+				mohonasMove = almostVulnerable(mohona, game, 20);
 			}
 			else {
 				//otherwise, move towards that pill
@@ -128,8 +130,8 @@ public final class StudentController implements DefenderController
 	public int jonathansMethod(Defender jon, Game game){
 		int direction;
 
-		if (almostVulnerable(jon, game, 10 ) == -1 ) {
-			direction = almostVulnerable(jon, game, 10);
+		if (almostVulnerable(jon, game, 20 ) != -1 ) {
+			direction = almostVulnerable(jon, game, 20);
 		}
 		else {
 			direction = jon.getNextDir(game.getAttacker().getLocation().getNeighbor(game.getAttacker().getPossibleDirs(false).get(0)), true);
@@ -140,7 +142,7 @@ public final class StudentController implements DefenderController
 	public int chaseMethod(Game game, Defender ghost)
 	{
 		int action;
-		if (almostVulnerable(ghost, game, 5) == -1 ) {
+		if (almostVulnerable(ghost, game, 5) != -1 ) {
 			action = almostVulnerable(ghost, game, 5);
 		}
 		else {
@@ -153,14 +155,12 @@ public final class StudentController implements DefenderController
 	//courtney's method for getting the attacker (normal mode)
 	public int courtneysMethod(Defender courtney, Game game){
 		int direction;
-		if (almostVulnerable(courtney, game, 10) == -1 ) {
-			direction = almostVulnerable(courtney, game, 10);
+		if (almostVulnerable(courtney, game, 20) != -1 ) {
+			direction = almostVulnerable(courtney, game, 20);
 		}
 		else {
-
 			//gets the node facing the way the attacker is going
 			direction = courtney.getNextDir(game.getAttacker().getLocation().getNeighbor(game.getAttacker().getReverse()), true);
-
 		}
 		return direction;
 	}

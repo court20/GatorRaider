@@ -61,7 +61,7 @@ public final class StudentController implements DefenderController
 				}
 			}
 
-			//if the path to the attaker is short enough, run away
+			//if the path to the attacker is short enough, run away
 			if (game.getPowerPillList().get(minNode).getPathDistance(game.getAttacker().getLocation()) <= x) {
 				for (int k = 0; k < name.getPathTo(game.getAttacker().getLocation()).size(); k++) {
 					if (name.getPathTo(game.getAttacker().getLocation()).get(k).getX() <= x || name.getPathTo(game.getAttacker().getLocation()).get(k).getX() <= x) {
@@ -72,7 +72,9 @@ public final class StudentController implements DefenderController
 			}
 
 		}
-		
+		else {
+			action = name.getNextDir(game.getAttacker().getLocation(), true);
+		}
 		return action;
 
 	}
@@ -148,7 +150,7 @@ public final class StudentController implements DefenderController
 		return action;
 	}
 
-	//courtneys method for getting the attacker (normal mode)
+	//courtney's method for getting the attacker (normal mode)
 	public int courtneysMethod(Defender courtney, Game game){
 		int direction;
 		if (almostVulnerable(courtney, game, 10) == -1 ) {

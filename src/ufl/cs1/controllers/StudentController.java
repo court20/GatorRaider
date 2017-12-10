@@ -62,15 +62,18 @@ public final class StudentController implements DefenderController
 			}
 
 			//if the path to the attaker is short enough, run away
-			if (game.getPowerPillList().get(minNode).getPathDistance(game.getAttacker().getLocation()) == x) {
+			if (game.getPowerPillList().get(minNode).getPathDistance(game.getAttacker().getLocation()) <= x) {
 				for (int k = 0; k < name.getPathTo(game.getAttacker().getLocation()).size(); k++) {
-					if (name.getPathTo(game.getAttacker().getLocation()).get(k).getX() == x || name.getPathTo(game.getAttacker().getLocation()).get(k).getX() == x) {
+					if (name.getPathTo(game.getAttacker().getLocation()).get(k).getX() <= x || name.getPathTo(game.getAttacker().getLocation()).get(k).getX() <= x) {
 						action = name.getNextDir(game.getAttacker().getLocation(), false);
 						return action;
 					}
 				}
 			}
 
+		}
+		else {
+			action = name.getNextDir(game.getAttacker().getLocation(), true);
 		}
 		return action;
 

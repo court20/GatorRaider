@@ -28,6 +28,16 @@ public final class StudentController implements DefenderController
 		actions[2] = jonathansMethod(jonathan, game);
 		actions[3] = mohonaAction(mohona, game);
 
+		if(courtney.getLocation().getX()== dominic.getLocation().getX() ||courtney.getLocation().getX()== jonathan.getLocation().getX() ||courtney.getLocation().getX()== mohona.getLocation().getX()||courtney.getLocation().getY()== dominic.getLocation().getY() ||courtney.getLocation().getY()== jonathan.getLocation().getY() ||courtney.getLocation().getY()== mohona.getLocation().getY()){
+			if(courtney.getLocation().getX()== dominic.getLocation().getX() || courtney.getLocation().getY()== dominic.getLocation().getY()){
+				actions[0]=dominic.getReverse();
+			}else if(courtney.getLocation().getX()== jonathan.getLocation().getX() || courtney.getLocation().getY()== jonathan.getLocation().getY()){
+				actions[0]=jonathan.getReverse();
+			}else if(courtney.getLocation().getX()== mohona.getLocation().getX() || courtney.getLocation().getY()== mohona.getLocation().getY()){
+				actions[0]=mohona.getReverse();
+			}
+		}
+
 		int i = 0;
 		for (Defender name : game.getDefenders()){
 			if (name.isVulnerable()) {
